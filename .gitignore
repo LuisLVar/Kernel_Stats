@@ -1,0 +1,8 @@
+node_modules
+
+*.cmd
+*.a
+*.ko
+*.mod 
+*.o
+*.mod.c
