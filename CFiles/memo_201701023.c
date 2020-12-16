@@ -13,7 +13,7 @@
 #include <linux/smp.h>
 #include <linux/cpufreq.h>
 #include <linux/cpumask.h>
-#include <linux/timekeeping.h>
+
 
 static int my_proc_show(struct seq_file *m, void *v)
 {
@@ -25,7 +25,7 @@ static int my_proc_show(struct seq_file *m, void *v)
     usedRam = i.totalram - i.freeram;
     totalRam = i.totalram;
 
-    seq_printf(m, "{'usedRam':%lu, 'totalRam':%lu, 'usedCpu':0.25}", usedRam, totalRam);
+    seq_printf(m, "{'usedRam':%lu, 'totalRam':%lu}", usedRam, totalRam);
 
     return 0;
 }
