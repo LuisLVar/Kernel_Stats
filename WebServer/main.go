@@ -15,8 +15,8 @@ import (
 	"strings";
 	"github.com/gorilla/mux"
 	"encoding/json"
-	// "github.com/gorilla/handlers"
 	"github.com/rs/cors"
+	"os"
 
 )
 
@@ -28,6 +28,40 @@ type Proceso struct {
 	Idle int `json:"Idle"`
 	Totales int `json:"Totales"`
 	Procesos [][]string `json:"Procesos"`
+}
+
+type Mensaje struct {
+	Data string `json:"data"`
+}
+
+
+// ------------------- KILL ----------------------------
+func kill(w http.ResponseWriter, r *http.Request) {
+	var respuesta Mensaje
+    vars := mux.Vars(r)
+    pid, err := strconv.Atoi(vars["id"])
+	
+	fmt.Println("kill "+ strconv.Itoa(pid))
+
+	process, err := os.FindProcess(pid)
+
+	if err != nil {
+		fmt.Println("error1: " + err.Error());
+	} else {
+		err = process.Kill()
+		if err != nil {
+			fmt.Println("error3: " + err.Error())
+		} else {
+			fmt.Println("Proceso matado correctamente")
+		}
+	}
+
+	
+	fmt.Println("Command Successfully Executed")
+
+	respuesta = Mensaje{ Data: "true" }
+
+	json.NewEncoder(w).Encode(respuesta)
 }
 
 
@@ -219,6 +253,7 @@ func main(){
 	myRouter.HandleFunc("/", homePage)
 	myRouter.HandleFunc("/ws", wsEndpoint)
 	myRouter.HandleFunc("/home", cpu_data)
+	myRouter.HandleFunc("/kill/{id}", kill)
 
     c := cors.New(cors.Options{
         AllowedOrigins: []string{"*"},

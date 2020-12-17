@@ -23,8 +23,7 @@ export class HomeComponent implements OnInit {
 
 
    sendMsg() {
-    console.log("new message from client to websocket.");
-    this.monitorService.data.next('home');
+    this.getProcesos();
   }
 
   ngOnInit(): void {
@@ -37,6 +36,16 @@ export class HomeComponent implements OnInit {
         console.log(res);
         this.procesos = res;
         console.log(this.procesos);
+      },
+      err => console.log(err)
+    );
+  }
+
+  kill(pid: any){
+    this.homeService.kill(pid).subscribe(
+      res => {
+        this.getProcesos();
+        console.log(res);
       },
       err => console.log(err)
     );

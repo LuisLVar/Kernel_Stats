@@ -11,4 +11,6 @@ export class HomeService {
   constructor(private http: HttpClient) { }
 
   getProcesos = () => this.http.get(`${this.API_URI}/home`);
+
+  kill = (pid : any) => this.http.get(`${this.API_URI}/kill/${pid}`)
 }
