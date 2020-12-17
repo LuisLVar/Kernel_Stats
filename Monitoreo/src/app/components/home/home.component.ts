@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WebsocketService } from "../../services/websocket.service";
 import { MonitorService } from "../../services/monitor.service";
+import { HomeService } from "../../services/home.service";
 
 @Component({
   selector: 'app-home',
@@ -11,8 +12,9 @@ export class HomeComponent implements OnInit {
 
 
   data : any = "...";
+  procesos: any = null;
 
-  constructor(private monitorService: MonitorService) {
+  constructor(private monitorService: MonitorService, private homeService : HomeService) {
     monitorService.data.subscribe((msg :any) => {
       console.log("Response from websocket: " + msg);
       this.data = msg;
@@ -26,11 +28,18 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    this.getProcesos();
   }
 
-  ngAfterViewInit() {
-    this.monitorService.data.next('home');
+  getProcesos(): void {
+    this.homeService.getProcesos().subscribe(
+      res => {
+        console.log(res);
+        this.procesos = res;
+        console.log(this.procesos);
+      },
+      err => console.log(err)
+    );
   }
 
 }

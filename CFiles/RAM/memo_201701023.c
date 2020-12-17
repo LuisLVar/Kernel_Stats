@@ -1,18 +1,8 @@
 #include <linux/module.h>
-#include <linux/init.h>
 #include <linux/proc_fs.h>
-#include <linux/sched.h>
-#include <linux/uaccess.h>
-#include <linux/fs.h>
 #include <linux/sysinfo.h>
 #include <linux/seq_file.h>
-#include <linux/slab.h>
 #include <linux/mm.h>
-#include <linux/swap.h>
-#include <linux/kernel.h>
-#include <linux/smp.h>
-#include <linux/cpufreq.h>
-#include <linux/cpumask.h>
 
 
 static int my_proc_show(struct seq_file *m, void *v)
