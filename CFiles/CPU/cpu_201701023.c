@@ -59,9 +59,6 @@ static u64 get_iowait_time(int cpu)
 
 static int my_proc_show(struct seq_file *m, void *v)
 {
-	/**
-	 * DECLARAR VARIABLES
-	 * */
 	int i;
 	unsigned long jif;
 	u64 user, nice, system, idle, iowait, irq, softirq, steal;
@@ -74,7 +71,6 @@ static int my_proc_show(struct seq_file *m, void *v)
 	guest = guest_nice = 0;
 	getboottime(&boottime);
 	jif = boottime.tv_sec;
-	//Recolectar informaciòn de cada CPU y aumentar las variables/contadores
 	seq_printf(m, "{");
 	seq_printf(m, "\"procesos\":[\n");
 	for_each_possible_cpu(i)
