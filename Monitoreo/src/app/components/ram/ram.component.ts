@@ -13,6 +13,7 @@ export class RamComponent implements OnInit {
   data: any = "...";
   porcentaje: any = 0;
   porcentajes: any = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  datamb: any = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   constructor(private monitorService: MonitorService) {
     monitorService.data.subscribe((msg: any) => {
@@ -29,12 +30,20 @@ export class RamComponent implements OnInit {
         this.porcentajes.push(this.porcentaje);
         this.chart.data.datasets[0].data = this.porcentajes;
         this.chart.update();
-        console.log(this.porcentajes);
+
+
+        // MB
+        this.datamb.shift();
+        this.datamb.push(((parseFloat(data.usedRam)/1024).toFixed(2)));
+        this.chartMB.data.datasets[0].data = this.datamb;
+        this.chartMB.update();
       } catch (err) {
         console.log(err)
       }
       //let salida = `{"usedRam":2717437, "totalRam":4061913}`;
       this.data = data;
+      this.data.usedRam = isNaN(this.data.usedRam) ? 0 : (this.data.usedRam/1024).toFixed(2);
+      this.data.totalRam = isNaN(this.data.totalRam) ? 0 : (this.data.totalRam/1024).toFixed(2);
     });
   }
 
@@ -46,6 +55,8 @@ export class RamComponent implements OnInit {
   //Chart JS
 
   chart: any = null;
+
+  chartMB : any = null;
 
 
 
@@ -75,6 +86,31 @@ export class RamComponent implements OnInit {
               max: 100,
               stepSize: 10
             }
+          }],
+        }
+      }
+    });
+
+    this.chartMB = new Chart('realtime2', {
+      type: 'line',
+      data: {
+        datasets: [{
+          data: [],
+          label: 'RAM (MB)',
+          backgroundColor: '#168ede',
+          borderColor: '#168ede',
+          fill: false,
+          // This binds the dataset to the left y axis
+          yAxisID: 'left-y-axis'
+        }],
+        labels: [60, 58, 56, 54, 52, 50, 48, 46, 44, 42, 40, 38, 36, 34, 32, 30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 6, 4, 2, 0]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            id: 'left-y-axis',
+            type: 'linear',
+            position: 'left',
           }],
         }
       }

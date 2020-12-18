@@ -46,6 +46,7 @@ export class HomeComponent implements OnInit {
       res => {
         this.getProcesos();
         console.log(res);
+        alert("Proceso terminado exitosamente.");
       },
       err => console.log(err)
     );
