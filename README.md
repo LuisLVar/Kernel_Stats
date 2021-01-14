@@ -1,12 +1,10 @@
-# Manual Técnico: Proyecto 1
+# Computer Internal Statistics - Kernel Linux
 
 ---
 
 ---
 
 ### Luis Angel Vargas León
-
-### Carné: 201701023
 
 ---
 
